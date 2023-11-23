@@ -70,6 +70,10 @@ public class JasperReportService {
         }
     }
 
+    public void convertJrprintToPdfa(String jrPrintFilePath, String pdfOutputPath) {
+
+    }
+
     public void exportToPdf(JasperPrint jasperPrint, String outputFilePath) throws Exception {
         // Export JasperPrint to PDF.
         JasperExportManager.exportReportToPdfFile(jasperPrint, outputFilePath);
