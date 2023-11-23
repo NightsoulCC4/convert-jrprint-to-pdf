@@ -31,13 +31,16 @@ public class PdfController {
     @Value("${jrprint_file_name}")
     private String jrprint_file_name;
 
-    @Value("{output_file_name}")
+    @Value("${output_file_name}")
     private String output_file_name;
 
     @PostMapping("/convert-to-pdf")
     public String convertToPdf() {
 
-        jasperReportService.convertJrprintToPdf(file_input_path + jrprint_file_name, file_output_path + output_file_name);
+        String input = file_input_path + jrprint_file_name;
+        String output = file_output_path + output_file_name;
+
+        jasperReportService.convertJrprintToPdf(input, output);
 
         return "Conversion completed.";
     }
