@@ -1,5 +1,7 @@
 package com.nattatat.jrPrintToPdf.Controller;
 
+import java.io.FileNotFoundException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,17 @@ public class PdfController {
         String output = file_output_path + output_file_name;
 
         jasperReportService.convertJrprintToPdf(input, output);
+
+        return "Conversion completed.";
+    }
+
+   @PostMapping("/convert-to-pdfa")
+    public String convertToPdfa() throws FileNotFoundException{
+
+        String input = file_input_path + jrprint_file_name;
+        String output = file_output_path + output_file_name;
+
+        jasperReportService.convertJrprintToPdfa(input, output);
 
         return "Conversion completed.";
     }

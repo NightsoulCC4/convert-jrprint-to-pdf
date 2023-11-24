@@ -33,6 +33,19 @@
 			<artifactId>jasperreports</artifactId>
 			<version>5.1.2</version> <!-- Use the latest version -->
 		</dependency>
+
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itext-core</artifactId>
+			<version>8.0.2</version>
+			<type>pom</type>
+		</dependency>
+
+		<dependency>
+			<groupId>com.groupdocs</groupId>
+			<artifactId>groupdocs-conversion</artifactId>
+			<version>17.12</version>
+		</dependency>
 	</dependencies>
 
 	<build>

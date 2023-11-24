@@ -1,8 +1,5 @@
 package com.nattatat.jrPrintToPdf.Service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,22 +7,25 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import com.lowagie.text.Font;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.FontKey;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
-import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
+import net.sf.jasperreports.engine.design.JRDesignStyle;
+import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
-import net.sf.jasperreports.engine.fonts.FontFamily;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.PdfAConformanceLevel;
+import com.itextpdf.kernel.pdf.PdfOutputIntent;
+import com.itextpdf.pdfa.PdfADocument;
+
+import java.io.*;
+
 @Service
-public class JasperReportService {
+public class JasperReportService{
 
     protected final static Logger log = LogManager.getLogger(JasperReportService.class);
 
@@ -36,19 +36,23 @@ public class JasperReportService {
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-            /* Map<String, String> fontMap = new HashMap<>(); */
+            // Set font properties
+            JRDesignStyle style = new JRDesignStyle();
+            style.setFontName("Arial");
+            style.setFontSize(12);
+            style.setBold(true);
+            style.setItalic(false);
 
-            // Set font settings for PDF export
-            /* String pdfFont = FontFamily.getExportFont("Arial");
-            fontMap.put("Arial", pdfFont); */
+            // Set font to the entire report
+            JRDesignTextField textField = new JRDesignTextField();
+            textField.setStyle(style);
 
             // Set the export font map for PDF
             JRPdfExporter exporter = new JRPdfExporter();
             exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
             exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outputStream);
             exporter.setParameter(JRPdfExporterParameter.CHARACTER_ENCODING, "UTF-8");
-            /* exporter.setParameter(JRPdfExporterParameter.FONT_MAP, fontMap); */
-
+                        
             exporter.exportReport();
 
             JasperExportManager.exportReportToPdfFile(jasperPrint, pdfOutputPath);
@@ -70,8 +74,35 @@ public class JasperReportService {
         }
     }
 
-    public void convertJrprintToPdfa(String jrPrintFilePath, String pdfOutputPath) {
+    public void convertJrprintToPdfa(String jrPrintFilePath, String pdfOutputPath) throws FileNotFoundException {
+        try {
+            // Load .jrprint file
+            JasperPrint jasperPrint = (JasperPrint) JRLoader.loadObject(new File(jrPrintFilePath));
+            FileOutputStream fileOutputStream = new FileOutputStream(pdfOutputPath);
 
+            // Create PdfAWriter
+            PdfWriter pdfWriter = new PdfWriter(fileOutputStream);
+            PdfADocument pdfADocument = new PdfADocument(pdfWriter, PdfAConformanceLevel.PDF_A_1B,
+                    new PdfOutputIntent("Custom", "", "http://www.color.org", "sRGB IEC61966-2.1", null));
+
+            // Create JasperReports exporter
+            JRPdfExporter exporter = new JRPdfExporter();
+
+            // Configure exporter
+            exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+            exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, fileOutputStream);
+            exporter.setParameter(JRPdfExporterParameter.CHARACTER_ENCODING, "UTF-8");
+
+            // Export the report to PDF/A
+            exporter.exportReport();
+
+            // Close the PdfADocument
+            pdfADocument.close();
+
+            System.out.println("PDF exported successfully.");
+        } catch (JRException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void exportToPdf(JasperPrint jasperPrint, String outputFilePath) throws Exception {
