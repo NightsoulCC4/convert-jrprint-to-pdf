@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<fontFamilies>
+
+    <!-- The jrprint file use this font families. -->
+    <fontFamily name="TH Sarabun New">
+        <normal><![CDATA[fonts/TH Sarabun New/THSarabunNew.ttf]]></normal>
+        <bold><![CDATA[fonts/TH Sarabun New/THSarabunNewBold.ttf]]></bold>
+        <italic><![CDATA[fonts/TH Sarabun New/THSarabunNewItalic.ttf]]></italic>
+        <boldItalic><![CDATA[fonts/TH Sarabun New/THSarabunNewBoldItalic.ttf]]></boldItalic>
+        <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+    </fontFamily>
+
+    <fontFamily name="TH Sarabun PSK">
+        <normal><![CDATA[fonts/TH Sarabun PSK/THSarabun.ttf]]></normal>
+        <bold><![CDATA[fonts/TH Sarabun PSK/THSarabun Bold.ttf]]></bold>
+        <italic><![CDATA[fonts/TH Sarabun PSK/THSarabun Italic.ttf]]></italic>
+        <boldItalic><![CDATA[fonts/TH Sarabun PSK/THSarabun Bold Italic.ttf]]></boldItalic>
+        <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+    </fontFamily>
+
+    <fontFamily name="Angsana New">
+        <normal><![CDATA[fonts/Angsana New/ANGSA.ttf]]></normal>
+        <bold><![CDATA[fonts/Angsana New/angsab.ttf]]></bold>
+        <italic><![CDATA[fonts/Angsana New/ANGSAI.ttf]]></italic>
+        <boldItalic><![CDATA[fonts/Angsana New/AngsanaNewBoldItalic.ttf]]></boldItalic>
+        <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+    </fontFamily>
+
+</fontFamilies>

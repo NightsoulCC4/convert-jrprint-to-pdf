@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nattatat.jrPrintToPdf.Service.JasperReportService;
@@ -16,7 +15,6 @@ import com.nattatat.jrPrintToPdf.Service.JasperReportService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/jasper")
 public class PdfController {
 
     protected final static Logger log = LogManager.getLogger(PdfController.class);
@@ -36,7 +34,7 @@ public class PdfController {
     @Value("${output_file_name}")
     private String output_file_name;
 
-    @PostMapping("/convert-to-pdf")
+    @PostMapping("/convertJrprintToPdf")
     public String convertToPdf() {
 
         String input = file_input_path + jrprint_file_name;
@@ -47,7 +45,7 @@ public class PdfController {
         return "Conversion completed.";
     }
 
-   @PostMapping("/convert-to-pdfa")
+   @PostMapping("/convertHrprintToPdfa")
     public String convertToPdfa() throws FileNotFoundException{
 
         String input = file_input_path + jrprint_file_name;

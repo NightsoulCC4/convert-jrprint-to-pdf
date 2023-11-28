@@ -1,8 +1,5 @@
 package com.nattatat.jrPrintToPdf.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -11,8 +8,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.design.JRDesignStyle;
-import net.sf.jasperreports.engine.design.JRDesignTextField;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -23,6 +18,7 @@ import com.itextpdf.kernel.pdf.PdfOutputIntent;
 import com.itextpdf.pdfa.PdfADocument;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class JasperReportService{
@@ -32,40 +28,31 @@ public class JasperReportService{
     public void convertJrprintToPdf(String jrPrintFilePath, String pdfOutputPath) {
         log.info("\noutput: " + pdfOutputPath);
         try {
+
             JasperPrint jasperPrint = (JasperPrint) JRLoader.loadObjectFromFile(jrPrintFilePath);
 
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-            // Set font properties
-            JRDesignStyle style = new JRDesignStyle();
-            style.setFontName("Arial");
-            style.setFontSize(12);
-            style.setBold(true);
-            style.setItalic(false);
-
-            // Set font to the entire report
-            JRDesignTextField textField = new JRDesignTextField();
-            textField.setStyle(style);
 
             // Set the export font map for PDF
             JRPdfExporter exporter = new JRPdfExporter();
             exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
             exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outputStream);
-            exporter.setParameter(JRPdfExporterParameter.CHARACTER_ENCODING, "UTF-8");
+            exporter.setParameter(JRPdfExporterParameter.CHARACTER_ENCODING, "ISO-8859-1");
                         
             exporter.exportReport();
 
             JasperExportManager.exportReportToPdfFile(jasperPrint, pdfOutputPath);
+            // JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
 
-            byte[] byteArray = outputStream.toByteArray();
+            // byte[] byteArray = outputStream.toByteArray();
 
             // Save the byte array to a file (optional)
-            try (FileOutputStream fileOutputStream = new FileOutputStream(pdfOutputPath)) {
+            /* try (FileOutputStream fileOutputStream = new FileOutputStream(pdfOutputPath)) {
                 fileOutputStream.write(byteArray);
                 System.out.println("PDF file saved successfully.");
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            } */
 
             System.out.println("PDF exported successfully.");
         } catch (JRException e) {
@@ -91,7 +78,8 @@ public class JasperReportService{
             // Configure exporter
             exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
             exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, fileOutputStream);
-            exporter.setParameter(JRPdfExporterParameter.CHARACTER_ENCODING, "UTF-8");
+            // exporter.setParameter(JRPdfExporterParameter.CHARACTER_ENCODING, "UTF-8");
+            exporter.setParameter(JRPdfExporterParameter.CHARACTER_ENCODING, "ISO-8859-1");
 
             // Export the report to PDF/A
             exporter.exportReport();
@@ -103,10 +91,5 @@ public class JasperReportService{
         } catch (JRException | IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void exportToPdf(JasperPrint jasperPrint, String outputFilePath) throws Exception {
-        // Export JasperPrint to PDF.
-        JasperExportManager.exportReportToPdfFile(jasperPrint, outputFilePath);
     }
 }
