@@ -42,17 +42,6 @@ public class JasperReportService{
             exporter.exportReport();
 
             JasperExportManager.exportReportToPdfFile(jasperPrint, pdfOutputPath);
-            // JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
-
-            // byte[] byteArray = outputStream.toByteArray();
-
-            // Save the byte array to a file (optional)
-            /* try (FileOutputStream fileOutputStream = new FileOutputStream(pdfOutputPath)) {
-                fileOutputStream.write(byteArray);
-                System.out.println("PDF file saved successfully.");
-            } catch (IOException e) {
-                e.printStackTrace();
-            } */
 
             System.out.println("PDF exported successfully.");
         } catch (JRException e) {

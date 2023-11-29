@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <fontFamilies>
 
     <!-- The jrprint file use this font families. -->
@@ -8,9 +8,10 @@
         <italic><![CDATA[fonts/TH Sarabun New/THSarabunNewItalic.ttf]]></italic>
         <boldItalic><![CDATA[fonts/TH Sarabun New/THSarabunNewBoldItalic.ttf]]></boldItalic>
         <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
+        <pdfEncoding><![CDATA[TIS620]]></pdfEncoding>
     </fontFamily>
 
-    <fontFamily name="TH Sarabun PSK">
+    <!-- <fontFamily name="TH Sarabun PSK">
         <normal><![CDATA[fonts/TH Sarabun PSK/THSarabun.ttf]]></normal>
         <bold><![CDATA[fonts/TH Sarabun PSK/THSarabun Bold.ttf]]></bold>
         <italic><![CDATA[fonts/TH Sarabun PSK/THSarabun Italic.ttf]]></italic>
@@ -24,6 +25,6 @@
         <italic><![CDATA[fonts/Angsana New/ANGSAI.ttf]]></italic>
         <boldItalic><![CDATA[fonts/Angsana New/AngsanaNewBoldItalic.ttf]]></boldItalic>
         <pdfEmbedded><![CDATA[true]]></pdfEmbedded>
-    </fontFamily>
+    </fontFamily> -->
 
 </fontFamilies>

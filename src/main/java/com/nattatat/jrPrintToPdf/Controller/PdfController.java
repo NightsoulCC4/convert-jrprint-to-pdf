@@ -45,7 +45,7 @@ public class PdfController {
         return "Conversion completed.";
     }
 
-   @PostMapping("/convertHrprintToPdfa")
+   @PostMapping("/convertJrprintToPdfa")
     public String convertToPdfa() throws FileNotFoundException{
 
         String input = file_input_path + jrprint_file_name;
