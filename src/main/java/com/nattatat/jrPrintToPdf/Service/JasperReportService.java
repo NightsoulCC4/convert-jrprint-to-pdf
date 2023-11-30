@@ -18,10 +18,9 @@ import com.itextpdf.kernel.pdf.PdfOutputIntent;
 import com.itextpdf.pdfa.PdfADocument;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 
 @Service
-public class JasperReportService{
+public class JasperReportService {
 
     protected final static Logger log = LogManager.getLogger(JasperReportService.class);
 
@@ -29,18 +28,22 @@ public class JasperReportService{
         log.info("\noutput: " + pdfOutputPath);
         try {
 
+            // read jasper file.
             JasperPrint jasperPrint = (JasperPrint) JRLoader.loadObjectFromFile(jrPrintFilePath);
 
+            // convert file output to stream for exporting (Optional for exporter parameter).
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-            // Set the export font map for PDF
+            // Set the exporter (Optional).
             JRPdfExporter exporter = new JRPdfExporter();
             exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
             exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outputStream);
             exporter.setParameter(JRPdfExporterParameter.CHARACTER_ENCODING, "ISO-8859-1");
-                        
+
+            // Export file with custom exporter.
             exporter.exportReport();
 
+            // Convert jasper file to pdf and export.
             JasperExportManager.exportReportToPdfFile(jasperPrint, pdfOutputPath);
 
             System.out.println("PDF exported successfully.");
@@ -51,33 +54,23 @@ public class JasperReportService{
     }
 
     public void convertJrprintToPdfa(String jrPrintFilePath, String pdfOutputPath) throws FileNotFoundException {
+        convertJrprintToPdf(jrPrintFilePath, pdfOutputPath);
         try {
-            // Load .jrprint file
-            JasperPrint jasperPrint = (JasperPrint) JRLoader.loadObject(new File(jrPrintFilePath));
-            FileOutputStream fileOutputStream = new FileOutputStream(pdfOutputPath);
+            String file_path = pdfOutputPath;
+            File file = new File(file_path);
+            // FileOutputStream fileOutputStream = new FileOutputStream(file_path);
 
             // Create PdfAWriter
-            PdfWriter pdfWriter = new PdfWriter(fileOutputStream);
+            PdfWriter pdfWriter = new PdfWriter(file);
             PdfADocument pdfADocument = new PdfADocument(pdfWriter, PdfAConformanceLevel.PDF_A_1B,
                     new PdfOutputIntent("Custom", "", "http://www.color.org", "sRGB IEC61966-2.1", null));
 
-            // Create JasperReports exporter
-            JRPdfExporter exporter = new JRPdfExporter();
-
-            // Configure exporter
-            exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-            exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, fileOutputStream);
-            // exporter.setParameter(JRPdfExporterParameter.CHARACTER_ENCODING, "UTF-8");
-            exporter.setParameter(JRPdfExporterParameter.CHARACTER_ENCODING, "ISO-8859-1");
-
-            // Export the report to PDF/A
-            exporter.exportReport();
-
             // Close the PdfADocument
             pdfADocument.close();
+            pdfWriter.close();
 
             System.out.println("PDF exported successfully.");
-        } catch (JRException | IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
